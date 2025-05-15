@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.julibenitez.bluebird.domain.ports.in.CreateTweetUseCase;
 import com.julibenitez.bluebird.domain.ports.out.TweetRepository;
-import com.julibenitez.bluebird.domain.service.CreateTweetServiceImpl;
+import com.julibenitez.bluebird.domain.services.CreateTweetServiceImpl;
 
 @Service
 public class CreateTweetUseCaseImpl implements CreateTweetUseCase {

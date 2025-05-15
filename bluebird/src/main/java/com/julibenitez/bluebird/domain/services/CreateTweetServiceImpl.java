@@ -1,10 +1,12 @@
-package com.julibenitez.bluebird.domain.service;
+package com.julibenitez.bluebird.domain.services;
 
 import org.apache.logging.log4j.util.Strings;
+import org.springframework.stereotype.Component;
 
 import com.julibenitez.bluebird.domain.model.Tweet;
 import com.julibenitez.bluebird.domain.ports.in.CreateTweetService;
 
+@Component
 public class CreateTweetServiceImpl implements CreateTweetService{
 
     public Tweet createTweet(String userId, String content) {
