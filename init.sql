@@ -2,6 +2,7 @@
 -- Script para crear tablas: usuarios, tweets, y seguidores
 -- Utiliza UUIDs, restricciones, claves foráneas e índices
 -- =============================================
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- =============================================
 -- Tabla: users

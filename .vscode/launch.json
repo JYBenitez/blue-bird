@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-BluebirdApplication<bluebird>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.julibenitez.bluebird.BluebirdApplication",
+            "projectName": "bluebird",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

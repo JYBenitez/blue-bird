@@ -1,4 +1,4 @@
-package com.julibenitez.bluebird.infrastructure.controllers;
+package com.julibenitez.bluebird.infrastructure.web.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,7 @@ import com.julibenitez.bluebird.domain.ports.in.CreateTweetUseCase;
 import com.julibenitez.bluebird.infrastructure.dtos.TweetRequest;
 
 @RestController
-@RequestMapping("/tweets")
+@RequestMapping("api/v1/tweets")
 public class TweetController {
     private final CreateTweetUseCase createTweetUseCase;
 
