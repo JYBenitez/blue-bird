@@ -2,6 +2,7 @@ package com.julibenitez.bluebird.infrastructure.web.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,9 +20,11 @@ public class TweetController {
         this.createTweetUseCase = createTweetUseCase;
     }
 
-    @PostMapping
-    public ResponseEntity<Void> postTweet(@RequestBody TweetRequest request) {
-        createTweetUseCase.execute(request.userId(), request.content());
+    @PostMapping("/{user_id}")
+    public ResponseEntity<Void> postTweet(
+            @PathVariable("user_id") String userId,
+            @RequestBody TweetRequest request) {
+        createTweetUseCase.execute(userId, request.content());
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
