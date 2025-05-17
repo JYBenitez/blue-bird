@@ -17,4 +17,10 @@ public class GlobalExceptionHandler {
         ApiError error = new ApiError(ex.getCode(), ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
     }
+
+    @ExceptionHandler(value = { RuntimeException.class })
+    public ResponseEntity<ApiError> handleGeneralExceptions(RuntimeException ex) {
+        ApiError error = new ApiError("INTERNAL_SERVER_ERROR", "Couldn't process request");
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
