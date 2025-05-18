@@ -10,12 +10,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "users")
 public class User {
     @Id
     private UUID id;
-    private String name;
+    private String userName;
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
@@ -29,7 +31,7 @@ public class User {
 
     private User(Builder builder) {
         this.id = builder.id != null ? builder.id : UUID.randomUUID();
-        this.name = builder.name;
+        this.userName = builder.userName;
         this.createdAt = builder.createdAt != null ? builder.createdAt : LocalDateTime.now();
 
     }
@@ -38,8 +40,8 @@ public class User {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getUserName() {
+        return userName;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -48,7 +50,7 @@ public class User {
 
     public static class Builder {
         private UUID id;
-        private String name;
+        private String userName;
         private LocalDateTime createdAt;
 
         public Builder id(UUID id) {
@@ -61,8 +63,8 @@ public class User {
             return this;
         }
 
-        public Builder name(String name) {
-            this.name = name;
+        public Builder userName(String userName) {
+            this.userName = userName;
             return this;
         }
 
