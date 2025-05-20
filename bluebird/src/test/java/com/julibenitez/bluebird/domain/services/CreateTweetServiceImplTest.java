@@ -27,15 +27,17 @@ class CreateTweetServiceImplTest {
         // Arrange
         String userId = UUID.randomUUID().toString();
         String content = "This is a valid tweet";
+        String id = UUID.randomUUID().toString();
 
         // Act
-        Tweet tweet = createTweetService.createTweet(userId, content);
+        Tweet tweet = createTweetService.createTweet(id, userId, content);
 
         // Assert
         assertNotNull(tweet);
         assertEquals(userId, tweet.getUserId().toString());
         assertEquals(content, tweet.getContent());
         assertNotNull(tweet.getId());
+        assertEquals(id, tweet.getId().toString());
         assertNotNull(tweet.getCreatedAt());
     }
 
@@ -45,12 +47,12 @@ class CreateTweetServiceImplTest {
         // Arrange
         String userId = UUID.randomUUID().toString();
         String content = "a".repeat(281);
+        String id = UUID.randomUUID().toString();
 
         // Act & Assert
         TweetExceedsLengthException exception = assertThrows(
-            TweetExceedsLengthException.class,
-            () -> createTweetService.createTweet(userId, content)
-        );
+                TweetExceedsLengthException.class,
+                () -> createTweetService.createTweet(id, userId, content));
 
         assertEquals("TWEET_EXCEEDS_LENGTH", exception.getCode());
         assertEquals("Content cannot exceed 280 characters", exception.getMessage());
@@ -62,12 +64,12 @@ class CreateTweetServiceImplTest {
         // Arrange
         String userId = UUID.randomUUID().toString();
         String content = "";
+        String id = UUID.randomUUID().toString();
 
         // Act & Assert
         TweetEmptyException exception = assertThrows(
-            TweetEmptyException.class,
-            () -> createTweetService.createTweet(userId, content)
-        );
+                TweetEmptyException.class,
+                () -> createTweetService.createTweet(id, userId, content));
 
         assertEquals("TWEET_EMPTY", exception.getCode());
         assertEquals("Content cannot empty", exception.getMessage());
@@ -79,14 +81,14 @@ class CreateTweetServiceImplTest {
         // Arrange
         String userId = UUID.randomUUID().toString();
         String content = "   ";
+        String id = UUID.randomUUID().toString();
 
         // Act & Assert
         TweetEmptyException exception = assertThrows(
-            TweetEmptyException.class,
-            () -> createTweetService.createTweet(userId, content)
-        );
+                TweetEmptyException.class,
+                () -> createTweetService.createTweet(id, userId, content));
 
         assertEquals("TWEET_EMPTY", exception.getCode());
         assertEquals("Content cannot empty", exception.getMessage());
     }
-} 
+}

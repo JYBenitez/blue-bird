@@ -1,5 +1,7 @@
 package com.julibenitez.bluebird.infrastructure.web.controllers;
 
+import java.util.UUID;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,23 +10,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.julibenitez.bluebird.domain.ports.in.CreateTweetUseCase;
+import com.julibenitez.bluebird.domain.ports.in.NewTweetUseCase;
 import com.julibenitez.bluebird.infrastructure.dtos.TweetRequest;
+import com.julibenitez.bluebird.infrastructure.dtos.TweetResponseDto;
 
 @RestController
 @RequestMapping("api/v1/tweets")
 public class TweetController {
-    private final CreateTweetUseCase createTweetUseCase;
+    private final NewTweetUseCase newTweetUseCase;
 
-    public TweetController(CreateTweetUseCase createTweetUseCase) {
-        this.createTweetUseCase = createTweetUseCase;
+    public TweetController(
+            NewTweetUseCase newTweetUseCase) {
+        this.newTweetUseCase = newTweetUseCase;
     }
 
     @PostMapping("/{user_id}")
-    public ResponseEntity<Void> postTweet(
+    public ResponseEntity<TweetResponseDto> postTweet(
             @PathVariable("user_id") String userId,
             @RequestBody TweetRequest request) {
-        createTweetUseCase.execute(userId, request.content());
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        TweetResponseDto responseDto = newTweetUseCase.execute(request.withUserId(userId));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(responseDto);
+
     }
 }

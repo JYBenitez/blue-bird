@@ -16,10 +16,10 @@ public class CreateTweetServiceImpl implements CreateTweetService {
     private final String TWEET_EMPTY_CODE = "TWEET_EMPTY";
     private final Integer TWEET_MAX_EXCEEDS_LENGTH = 280;
 
-    public Tweet createTweet(String userId, String content) {
+    public Tweet createTweet(String id, String userId, String content) {
         validate(content);
 
-        return builderTweet(userId, content);
+        return builderTweet(id, userId, content);
     }
 
     private void validate(String content) {
@@ -29,12 +29,12 @@ public class CreateTweetServiceImpl implements CreateTweetService {
             throw new TweetEmptyException(TWEET_EMPTY_CODE, TWEET_EMPTY);
     }
 
-    private Tweet builderTweet(String userId, String content) {
+    private Tweet builderTweet(String id, String userId, String content) {
         return new Tweet.Builder()
                 .userId(userId)
                 .content(content)
                 .createdAtDefault()
-                .newId()
+                .id(id)
                 .build();
     }
 }

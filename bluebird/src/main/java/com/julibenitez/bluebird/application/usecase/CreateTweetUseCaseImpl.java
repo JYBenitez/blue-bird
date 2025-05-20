@@ -22,8 +22,8 @@ public class CreateTweetUseCaseImpl implements CreateTweetUseCase {
     }
 
     @Override
-    public void execute(String userId, String content) {
-        Tweet tweet = createTweetService.createTweet(userId, content);
+    public void execute(String id, String userId, String content) {
+        Tweet tweet = createTweetService.createTweet(id, userId, content);
         tweetRepository.save(tweet);
     }
 
