@@ -1,8 +1,8 @@
 package com.julibenitez.bluebird.domain.ports.in;
 
-import com.julibenitez.bluebird.infrastructure.dtos.TweetRequest;
-import com.julibenitez.bluebird.infrastructure.dtos.TweetResponseDto;
+import com.julibenitez.bluebird.dtos.TweetRequestDto;
+import com.julibenitez.bluebird.dtos.TweetResponseDto;
 
 public interface NewTweetUseCase {
-    TweetResponseDto execute(TweetRequest request);
+    TweetResponseDto execute(TweetRequestDto request);
 }

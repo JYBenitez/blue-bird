@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 
 import com.julibenitez.bluebird.domain.ports.in.NewTweetUseCase;
 import com.julibenitez.bluebird.domain.ports.out.publishers.NewTweetPublisher;
-import com.julibenitez.bluebird.infrastructure.dtos.TweetRequest;
-import com.julibenitez.bluebird.infrastructure.dtos.TweetResponseDto;
+import com.julibenitez.bluebird.dtos.TweetRequestDto;
+import com.julibenitez.bluebird.dtos.TweetResponseDto;
 
 @Component
 public class NewTweetUseCaseImpl implements NewTweetUseCase {
@@ -18,7 +18,7 @@ public class NewTweetUseCaseImpl implements NewTweetUseCase {
     }
 
     @Override
-    public TweetResponseDto execute(TweetRequest request) {
+    public TweetResponseDto execute(TweetRequestDto request) {
         UUID id = UUID.randomUUID();
         publisher.publish(request.withId(id));
 

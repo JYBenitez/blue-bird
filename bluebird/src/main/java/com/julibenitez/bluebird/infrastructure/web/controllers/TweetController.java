@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.julibenitez.bluebird.domain.ports.in.NewTweetUseCase;
-import com.julibenitez.bluebird.infrastructure.dtos.TweetRequest;
-import com.julibenitez.bluebird.infrastructure.dtos.TweetResponseDto;
+import com.julibenitez.bluebird.dtos.TweetRequestDto;
+import com.julibenitez.bluebird.dtos.TweetResponseDto;
 
 @RestController
 @RequestMapping("api/v1/tweets")
@@ -27,7 +27,7 @@ public class TweetController {
     @PostMapping("/{user_id}")
     public ResponseEntity<TweetResponseDto> postTweet(
             @PathVariable("user_id") String userId,
-            @RequestBody TweetRequest request) {
+            @RequestBody TweetRequestDto request) {
         TweetResponseDto responseDto = newTweetUseCase.execute(request.withUserId(userId));
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(responseDto);

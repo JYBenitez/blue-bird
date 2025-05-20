@@ -6,7 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.julibenitez.bluebird.domain.ports.in.CreateTweetUseCase;
 import com.julibenitez.bluebird.domain.ports.in.listeners.NewTweetListener;
-import com.julibenitez.bluebird.infrastructure.dtos.TweetRequest;
+import com.julibenitez.bluebird.dtos.TweetRequestDto;
 
 import io.awspring.cloud.sqs.annotation.SqsListener;
 
@@ -23,7 +23,7 @@ public class CreateTweetListenerImpl implements NewTweetListener {
     public void listenToTweetQueue(String message) {
 
         try {
-            TweetRequest tweet = objectMapper.readValue(message, TweetRequest.class);
+            TweetRequestDto tweet = objectMapper.readValue(message, TweetRequestDto.class);
             System.out.println("📥 Received tweet via annotation: " + tweet);
 
             createTweetUseCase.execute(tweet.id().toString(), tweet.userId(), tweet.content());

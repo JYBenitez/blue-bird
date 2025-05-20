@@ -1,7 +1,7 @@
 package com.julibenitez.bluebird.domain.ports.out.publishers;
 
-import com.julibenitez.bluebird.infrastructure.dtos.TweetRequest;
+import com.julibenitez.bluebird.dtos.TweetRequestDto;
 
 public interface NewTweetPublisher {
-    void publish(TweetRequest message);
+    void publish(TweetRequestDto message);
 }
