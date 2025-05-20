@@ -2,7 +2,6 @@ package com.julibenitez.bluebird.infrastructure.web.publishers;
 
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.julibenitez.bluebird.domain.ports.out.publishers.NewTweetPublisher;
 import com.julibenitez.bluebird.dtos.TweetRequestDto;
