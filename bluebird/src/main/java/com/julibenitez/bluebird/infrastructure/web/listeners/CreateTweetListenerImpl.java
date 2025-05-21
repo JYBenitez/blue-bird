@@ -20,7 +20,7 @@ public class CreateTweetListenerImpl implements NewTweetListener {
     }
 
     @SqsListener("create-tweet")
-    public void listenToTweetQueue(String message) {
+    public void createTweet(String message) {
 
         try {
             TweetRequestDto tweet = objectMapper.readValue(message, TweetRequestDto.class);

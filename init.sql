@@ -54,6 +54,21 @@ CREATE TABLE IF NOT EXISTS follows (
 CREATE INDEX IF NOT EXISTS idx_follow_follower ON follows(follower_id);
 CREATE INDEX IF NOT EXISTS idx_follow_followed ON follows(followed_id);
 
+-- =============================================
+--  Tabla: user_timeline
+-- Relaciona usuarios con usuarios (N:M)
+-- =============================================
+CREATE TABLE IF NOT EXISTS user_timelines (
+    id UUID PRIMARY KEY,
+    follower_id UUID NOT NULL, -- el que verá el tweet en su timeline
+    tweet_id UUID NOT NULL,
+    author_id UUID NOT NULL,
+    created_at TIMESTAMP DEFAULT now(),
+    content TEXT
+);
+
+-- Índices para mejorar el rendimiento de consultas
+CREATE INDEX idx_user_timeline_follower ON user_timeline(follower_id, created_at DESC);
 
 INSERT INTO users (id, user_name) VALUES
   ('c8e7b1f0-1111-4b2e-aaaa-000000000001', 'alice'),
@@ -62,7 +77,6 @@ INSERT INTO users (id, user_name) VALUES
   ('c8e7b1f0-1111-4b2e-aaaa-000000000004', 'dave'),
   ('c8e7b1f0-1111-4b2e-aaaa-000000000005', 'eve'),
   ('c8e7b1f0-1111-4b2e-aaaa-000000000010', 'juli_test');
-
 
 INSERT INTO tweets (id, content, user_id) VALUES
   (uuid_generate_v4(), 'Hola, soy Alice!', 'c8e7b1f0-1111-4b2e-aaaa-000000000001'),
@@ -82,9 +96,6 @@ INSERT INTO tweets (id, content, user_id) VALUES
   (uuid_generate_v4(), 'Soy Juli, saludos a todos 👋', 'c8e7b1f0-1111-4b2e-aaaa-000000000010'),
   (uuid_generate_v4(), 'Como llueve! ya se viene el frio ', 'c8e7b1f0-1111-4b2e-aaaa-000000000010');
 
-
-  
-
 INSERT INTO follows (id, follower_id, followed_id) VALUES
   (uuid_generate_v4(), 'c8e7b1f0-1111-4b2e-aaaa-000000000001', 'c8e7b1f0-1111-4b2e-aaaa-000000000002'), -- Alice sigue a Bob
   (uuid_generate_v4(), 'c8e7b1f0-1111-4b2e-aaaa-000000000001', 'c8e7b1f0-1111-4b2e-aaaa-000000000003'), -- Alice sigue a Carol
@@ -96,3 +107,8 @@ INSERT INTO follows (id, follower_id, followed_id) VALUES
   (uuid_generate_v4(), 'c8e7b1f0-1111-4b2e-aaaa-000000000010', 'c8e7b1f0-1111-4b2e-aaaa-000000000001'); -- Juli sigue a Alice
 
 
+-- Propagación al timeline 
+INSERT INTO user_timeline (id, follower_id, tweet_id, author_id, content)
+VALUES
+  ('ddddddd1-dddd-dddd-dddd-dddddddddddd', 'c8e7b1f0-1111-4b2e-aaaa-000000000010', 'aaaaaaa1-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'c8e7b1f0-1111-4b2e-aaaa-000000000002', 'Hello from Bob!'),
+  ('ddddddd2-dddd-dddd-dddd-dddddddddddd', 'c8e7b1f0-1111-4b2e-aaaa-000000000010', 'bbbbbbb1-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'c8e7b1f0-1111-4b2e-aaaa-000000000001', 'Hey, this is Charlie.');

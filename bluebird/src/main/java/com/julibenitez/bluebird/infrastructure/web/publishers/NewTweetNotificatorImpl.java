@@ -4,21 +4,17 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.julibenitez.bluebird.domain.ports.out.publishers.NewTweetNotificator;
-import com.julibenitez.bluebird.domain.ports.out.publishers.NewTweetPublisher;
 import com.julibenitez.bluebird.dtos.TweetRequestDto;
 
 import io.awspring.cloud.sqs.operations.SqsTemplate;
 
 @Component
-public class CreateTweetPublisherImpl implements NewTweetPublisher {
+public class NewTweetNotificatorImpl implements NewTweetNotificator {
     private final SqsTemplate sqsTemplate;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    private final NewTweetNotificator newTweetNotificator;
-
-    public CreateTweetPublisherImpl(SqsTemplate sqsTemplate, NewTweetNotificator newTweetNotificator) {
+    public NewTweetNotificatorImpl(SqsTemplate sqsTemplate) {
         this.sqsTemplate = sqsTemplate;
-        this.newTweetNotificator = newTweetNotificator;
     }
 
     @Override
@@ -27,10 +23,8 @@ public class CreateTweetPublisherImpl implements NewTweetPublisher {
 
         try {
             message = objectMapper.writeValueAsString(tweet);
-            sqsTemplate.send(to -> to.queue("create-tweet").payload(message));
+            sqsTemplate.send(to -> to.queue("notify-new-tweet").payload(message));
             System.out.println("Sent tweet via SqsTemplate: " + tweet);
-            // Send notification to propagate tweet to timeline
-            newTweetNotificator.publish(tweet);
         } catch (Exception e) {
             System.err.println("Failed to send tweet to SQS: " + e.getMessage());
             // throw exception
