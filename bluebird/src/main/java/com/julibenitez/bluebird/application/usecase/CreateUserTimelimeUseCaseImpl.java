@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import com.julibenitez.bluebird.domain.exceptions.AuthorNotFoundException;
+import com.julibenitez.bluebird.domain.exceptions.UserIdNotValidException;
 import com.julibenitez.bluebird.domain.model.Follow;
 import com.julibenitez.bluebird.domain.model.User;
 import com.julibenitez.bluebird.domain.model.UserTimeline;
@@ -20,7 +22,10 @@ import com.julibenitez.bluebird.infrastructure.persistence.repositories.UserTime
 public class CreateUserTimelimeUseCaseImpl implements CreateUserTimelimeUseCase {
     private static final Logger log = LoggerFactory.getLogger(CreateUserTimelimeUseCaseImpl.class);
     private static final int BATCH_SIZE = 100;
-
+    private static final String AUTHOR_NOT_FOUND = "Author with ID {} not found. Skipping tweet propagation.";
+    private static final String AUTHOR_NOT_FOUND_CODE = "AUTHOR_NOT_FOUND";
+    private static final String USER_ID_NOT_VALID = "User ID {} is not valid. Skipping tweet propagation.";
+    private static final String USER_ID_NOT_VALID_CODE = "USER_ID_NOT_VALID";
     private final UserTimelineRepository userTimelineRepository;
     private final FollowRepository followRepository;
     private final UserRepository userRepository;
@@ -33,10 +38,18 @@ public class CreateUserTimelimeUseCaseImpl implements CreateUserTimelimeUseCase 
     }
 
     public void execute(TweetRequestDto tweetRequestDto) {
-        UUID authorId = UUID.fromString(tweetRequestDto.userId());
+        UUID authorId;
+        try {
+             authorId = UUID.fromString(tweetRequestDto.userId());
+        } catch (IllegalArgumentException e) {
+            String message = String.format(USER_ID_NOT_VALID, tweetRequestDto.userId());
+            log.warn(message);
+            throw new UserIdNotValidException(USER_ID_NOT_VALID_CODE, message);
+        }
         User author = userRepository.findById(authorId).orElseGet(() -> {
-            log.warn("Author with ID {} not found. Skipping tweet propagation.", authorId);
-            return null;
+                String message = String.format(AUTHOR_NOT_FOUND, authorId);
+            log.warn(message);
+            throw new AuthorNotFoundException(AUTHOR_NOT_FOUND_CODE, message);
         });
 
         List<Follow> followers = followRepository.findByFollower(author);
