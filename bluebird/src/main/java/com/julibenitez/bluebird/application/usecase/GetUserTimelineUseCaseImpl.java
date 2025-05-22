@@ -26,11 +26,11 @@ public class GetUserTimelineUseCaseImpl implements GetUserTimelineUseCase {
     }
 
     public TimelineResponseDto execute(GetUserTimelineRequestDto request) {
-        log.info("Executing query with params: followerId={}, cursor={}, limit={}", request.followerId(),
-                request.lastSeedtweetId(), PageRequest.of(0, request.limit()));
+        log.info("Executing query with params: followerId={}, lastSeedtweetId={}, limit={}", request.followerId(),
+                request.lastSeenTweetId(), PageRequest.of(0, request.limit()));
 
         List<UserTimeline> timeline = userTimelineRepository.findTimelineByFollowerIdWithCursor(request.followerId(),
-                request.lastSeedtweetId(), PageRequest.of(0, request.limit()));
+                request.lastSeenTweetId(), PageRequest.of(0, request.limit()));
 
         List<UserTimeLineResponseDto> tweets = timeline.stream().map(t -> new UserTimeLineResponseDto(
                 t.getId(),
