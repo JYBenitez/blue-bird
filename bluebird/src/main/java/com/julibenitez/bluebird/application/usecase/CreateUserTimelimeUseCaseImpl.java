@@ -5,16 +5,19 @@ import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.julibenitez.bluebird.domain.model.Follow;
 import com.julibenitez.bluebird.domain.model.User;
 import com.julibenitez.bluebird.domain.model.UserTimeline;
+import com.julibenitez.bluebird.domain.ports.in.CreateUserTimelimeUseCase;
 import com.julibenitez.bluebird.dtos.TweetRequestDto;
 import com.julibenitez.bluebird.infrastructure.persistence.repositories.FollowRepository;
 import com.julibenitez.bluebird.infrastructure.persistence.repositories.UserRepository;
 import com.julibenitez.bluebird.infrastructure.persistence.repositories.UserTimelineRepository;
 
-public class CreateUserTimelimeUseCaseImpl {
+@Component
+public class CreateUserTimelimeUseCaseImpl implements CreateUserTimelimeUseCase {
     private static final Logger log = LoggerFactory.getLogger(CreateUserTimelimeUseCaseImpl.class);
     private static final int BATCH_SIZE = 100;
 

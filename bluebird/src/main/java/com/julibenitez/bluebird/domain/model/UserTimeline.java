@@ -3,12 +3,14 @@ package com.julibenitez.bluebird.domain.model;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.github.f4b6a3.uuid.UuidCreator;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "user-timelines")
+@Table(name = "user_timelines")
 public class UserTimeline {
     @Id
     private UUID id;
@@ -68,7 +70,7 @@ public class UserTimeline {
         }
 
         public Builder newId() {
-            this.id = UUID.randomUUID();
+            this.id = UuidCreator.getTimeOrderedEpoch(); // UUIDv7
             return this;
         }
 

@@ -1,5 +1,7 @@
-package com.julibenitez.bluebird.infrastructure.web.listeners;
+package com.julibenitez.bluebird.infrastructure.listeners;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -12,6 +14,8 @@ import io.awspring.cloud.sqs.annotation.SqsListener;
 
 @Component
 public class CreateTweetListenerImpl implements NewTweetListener {
+    private static final Logger log = LoggerFactory.getLogger(CreateTweetListenerImpl.class);
+
     private final CreateTweetUseCase createTweetUseCase;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -24,11 +28,11 @@ public class CreateTweetListenerImpl implements NewTweetListener {
 
         try {
             TweetRequestDto tweet = objectMapper.readValue(message, TweetRequestDto.class);
-            System.out.println("📥 Received tweet via annotation: " + tweet);
+            log.info("📥 Received tweet via annotation: " + tweet);
 
             createTweetUseCase.execute(tweet.id().toString(), tweet.userId(), tweet.content());
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            log.error("Failed to read tweet to SQS: " + e.getMessage());
         }
 
     }
