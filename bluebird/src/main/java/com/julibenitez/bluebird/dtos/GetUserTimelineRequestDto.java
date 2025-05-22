@@ -4,10 +4,9 @@ import java.util.UUID;
 
 public record GetUserTimelineRequestDto(
         UUID followerId,
-        UUID lastSeedtweetId,
+        UUID lastSeenTweetId,
         int limit) {
     public GetUserTimelineRequestDto withFollowerId(UUID newFollowerId) {
-        return new GetUserTimelineRequestDto(newFollowerId, lastSeedtweetId, limit);
+        return new GetUserTimelineRequestDto(newFollowerId, lastSeenTweetId, limit);
     }
-
 }

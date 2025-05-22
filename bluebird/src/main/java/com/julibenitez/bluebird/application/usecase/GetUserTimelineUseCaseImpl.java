@@ -3,6 +3,8 @@ package com.julibenitez.bluebird.application.usecase;
 import java.util.List;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +17,8 @@ import com.julibenitez.bluebird.infrastructure.persistence.repositories.UserTime
 
 @Component
 public class GetUserTimelineUseCaseImpl implements GetUserTimelineUseCase {
+    private static final Logger log = LoggerFactory.getLogger(GetUserTimelineUseCaseImpl.class);
+
     private final UserTimelineRepository userTimelineRepository;
 
     public GetUserTimelineUseCaseImpl(UserTimelineRepository userTimelineRepository) {
@@ -22,6 +26,9 @@ public class GetUserTimelineUseCaseImpl implements GetUserTimelineUseCase {
     }
 
     public TimelineResponseDto execute(GetUserTimelineRequestDto request) {
+        log.info("Executing query with params: followerId={}, cursor={}, limit={}", request.followerId(),
+                request.lastSeedtweetId(), PageRequest.of(0, request.limit()));
+
         List<UserTimeline> timeline = userTimelineRepository.findTimelineByFollowerIdWithCursor(request.followerId(),
                 request.lastSeedtweetId(), PageRequest.of(0, request.limit()));
 
