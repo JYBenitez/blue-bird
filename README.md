@@ -124,6 +124,8 @@ Una vez levantada la aplicación, la API estará disponible en `http://localhost
 
 ## 📑 API Endpoints
 
+Se dejo ![collecion](https://github.com/JYBenitez/blue-bird/tree/main/collection-postman) de postman para pruebas
+
 ### Tweets
 
 | Método | Ruta               | Descripción          |
