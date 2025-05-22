@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
+import com.julibenitez.bluebird.domain.exceptions.LimitNotValidException;
 import com.julibenitez.bluebird.domain.model.UserTimeline;
 import com.julibenitez.bluebird.domain.ports.in.GetUserTimelineUseCase;
 import com.julibenitez.bluebird.dtos.GetUserTimelineRequestDto;
@@ -18,7 +19,8 @@ import com.julibenitez.bluebird.infrastructure.persistence.repositories.UserTime
 @Component
 public class GetUserTimelineUseCaseImpl implements GetUserTimelineUseCase {
     private static final Logger log = LoggerFactory.getLogger(GetUserTimelineUseCaseImpl.class);
-
+    private static final String LIMIT_NOT_VALID_EXCEPTION_CODE = "LIMIT_NOT_VALID";
+    private static final String LIMIT_NOT_VALID_EXCEPTION_MESSAGE = "Limit must be greater than 0";
     private final UserTimelineRepository userTimelineRepository;
 
     public GetUserTimelineUseCaseImpl(UserTimelineRepository userTimelineRepository) {
@@ -26,6 +28,11 @@ public class GetUserTimelineUseCaseImpl implements GetUserTimelineUseCase {
     }
 
     public TimelineResponseDto execute(GetUserTimelineRequestDto request) {
+
+        if (request.limit() <= 0) {
+            throw new LimitNotValidException(LIMIT_NOT_VALID_EXCEPTION_CODE, LIMIT_NOT_VALID_EXCEPTION_MESSAGE);
+        }
+
         log.info("Executing query with params: followerId={}, lastSeedtweetId={}, limit={}", request.followerId(),
                 request.lastSeenTweetId(), PageRequest.of(0, request.limit()));
 
