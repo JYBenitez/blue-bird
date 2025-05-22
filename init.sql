@@ -55,7 +55,7 @@ CREATE INDEX IF NOT EXISTS idx_follow_follower ON follows(follower_id);
 CREATE INDEX IF NOT EXISTS idx_follow_followed ON follows(followed_id);
 
 -- =============================================
---  Tabla: user_timeline
+--  Tabla: user_timelines
 -- Relaciona usuarios con usuarios (N:M)
 -- =============================================
 CREATE TABLE IF NOT EXISTS user_timelines (
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS user_timelines (
 );
 
 -- Índices para mejorar el rendimiento de consultas
-CREATE INDEX idx_user_timeline_follower ON user_timeline(follower_id, created_at DESC);
+CREATE INDEX idx_user_timeline_follower ON user_timelines(follower_id, created_at DESC);
 
 INSERT INTO users (id, user_name) VALUES
   ('c8e7b1f0-1111-4b2e-aaaa-000000000001', 'alice'),
@@ -108,7 +108,7 @@ INSERT INTO follows (id, follower_id, followed_id) VALUES
 
 
 -- Propagación al timeline 
-INSERT INTO user_timeline (id, follower_id, tweet_id, author_id, content)
+INSERT INTO user_timelines (id, follower_id, tweet_id, author_id, content)
 VALUES
-  ('ddddddd1-dddd-dddd-dddd-dddddddddddd', 'c8e7b1f0-1111-4b2e-aaaa-000000000010', 'aaaaaaa1-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'c8e7b1f0-1111-4b2e-aaaa-000000000002', 'Hello from Bob!'),
-  ('ddddddd2-dddd-dddd-dddd-dddddddddddd', 'c8e7b1f0-1111-4b2e-aaaa-000000000010', 'bbbbbbb1-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'c8e7b1f0-1111-4b2e-aaaa-000000000001', 'Hey, this is Charlie.');
+  (uuid_generate_v1(), 'c8e7b1f0-1111-4b2e-aaaa-000000000010', 'aaaaaaa1-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'c8e7b1f0-1111-4b2e-aaaa-000000000002', 'Hello from Bob!'),
+  (uuid_generate_v1(), 'c8e7b1f0-1111-4b2e-aaaa-000000000010', 'bbbbbbb1-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'c8e7b1f0-1111-4b2e-aaaa-000000000001', 'Hey, this is Charlie.');

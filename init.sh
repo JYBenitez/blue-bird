@@ -47,7 +47,10 @@ aws --endpoint-url=http://localhost:4566 sqs create-queue \
   --attributes "{\"RedrivePolicy\":\"{\\\"deadLetterTargetArn\\\":\\\"$DLQ_ARN\\\",\\\"maxReceiveCount\\\":\\\"3\\\"}\"}"
 
 # Paso 6: Crear la cola de notificacion de tweets
-aws sqs create-queue --queue-name notify-new-tweet
+echo "📦 Creating main queue 'notify-new-tweet' with DLQ configuration..."
+
+aws --endpoint-url=http://localhost:4566 sqs create-queue \
+   --queue-name notify-new-tweet
 
 # Paso 7: Verificar las colas
 echo "📋 Listing available SQS queues:"
