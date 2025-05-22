@@ -1,0 +1,225 @@
+{
+	"info": {
+		"_postman_id": "0dc9bd75-8393-4f83-ae49-08aaa0b2fbcc",
+		"name": "twiter",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "5634381",
+		"_collection_link": "https://grey-meteor-995500.postman.co/workspace/%23Api-Squad~fd82991e-145f-4cde-866a-9fa6a18a5904/collection/5634381-0dc9bd75-8393-4f83-ae49-08aaa0b2fbcc?action=share&source=collection_link&creator=5634381"
+	},
+	"item": [
+		{
+			"name": "tweet",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"probando flujo completo... \"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/v1/tweets/c8e7b1f0-1111-4b2e-aaaa-000000000001"
+					},
+					"response": [
+						{
+							"name": "http 422 TWEET_EMPTY",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"content\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/api/v1/tweets/c8e7b1f0-1111-4b2e-aaaa-000000000005"
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "http 422 TWEET_EXCEEDS_LENGTH",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"content\": \"En un mundo donde la tecnología avanza rápidamente, es esencial mantenerse actualizado para no quedar atrás. La curiosidad, el aprendizaje constante y la adaptabilidad son claves para enfrentar los desafíos actuales y construir soluciones innovadoras que impacten positivamente a la sociedad global.\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/api/v1/tweets/c8e7b1f0-1111-4b2e-aaaa-000000000005"
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "201 create",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"content\": \"La AI van a reemplazar a los devs?\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/api/v1/tweets/c8e7b1f0-1111-4b2e-aaaa-000000000005"
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Follower",
+			"item": [
+				{
+					"name": "follow",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"followed\":\"c8e7b1f0-1111-4b2e-aaaa-000000000005\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/v1/follower/c8e7b1f0-1111-4b2e-aaaa-000000000001"
+					},
+					"response": [
+						{
+							"name": "FOLLOWER_OR_FOLLOWED_EMPTY",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"followed\":\"c8e7b1f0-1111-4b2e-aaaa-0000000000\" // don't exists\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:8080/api/v1/follower/c8e7b1f0-1111-4b2e-aaaa-000000000010"
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "timeline",
+			"item": [
+				{
+					"name": "Page 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/timeline/c6801a40-09bf-4e0c-bc02-0b88b004adcb?limit=2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"timeline",
+								"c6801a40-09bf-4e0c-bc02-0b88b004adcb"
+							],
+							"query": [
+								{
+									"key": "lastSeedTweet",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Page 2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/timeline/c6801a40-09bf-4e0c-bc02-0b88b004adcb?lastSeedTweet=36527dc2-2e6e-442a-a578-674c98a25c85&limit=2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"timeline",
+								"c6801a40-09bf-4e0c-bc02-0b88b004adcb"
+							],
+							"query": [
+								{
+									"key": "lastSeedTweet",
+									"value": "36527dc2-2e6e-442a-a578-674c98a25c85"
+								},
+								{
+									"key": "limit",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "health",
+			"item": [
+				{
+					"name": "keep alive",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/actuator/health"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
